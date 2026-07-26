@@ -1,0 +1,23 @@
+{
+	"redirects": [
+		{ "source": "/home", "destination": "/", "permanent": true },
+		{ "source": "/signup", "destination": "/register", "permanent": true },
+		{ "source": "/23milebike", "destination": "/courses/23-mile-bike", "permanent": true },
+		{ "source": "/40milebike", "destination": "/courses/40-mile-bike", "permanent": true },
+		{ "source": "/75milebike", "destination": "/courses/75-mile-bike", "permanent": true },
+		{ "source": "/50bike", "destination": "/courses/40-mile-bike", "permanent": true },
+		{ "source": "/5krun", "destination": "/courses/5k-run", "permanent": true },
+		{ "source": "/10krun", "destination": "/courses/10k-run", "permanent": true },
+		{ "source": "/halfmarathon", "destination": "/courses/half-marathon", "permanent": true },
+		{ "source": "/runbikecombo", "destination": "/courses/run-bike-combo", "permanent": true },
+		{ "source": "/kids-bike-race", "destination": "/courses/kids-bike-race", "permanent": true },
+		{ "source": "/bikes", "destination": "/courses", "permanent": true },
+		{ "source": "/run", "destination": "/courses", "permanent": true },
+		{ "source": "/getting-to-the-event", "destination": "/getting-there", "permanent": true },
+		{ "source": "/packet-pick-up", "destination": "/packet-pickup", "permanent": true },
+		{ "source": "/history/weather", "destination": "/weather", "permanent": true },
+		{ "source": "/training26", "destination": "/training", "permanent": true },
+		{ "source": "/wintertrainingseries", "destination": "/training", "permanent": true },
+		{ "source": "/privacy-policy", "destination": "/privacy", "permanent": true }
+	]
+}

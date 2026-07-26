@@ -13,5 +13,11 @@ export default defineConfig({
 			},
 			adapter: adapter()
 		})
-	]
+	],
+	ssr: {
+		noExternal: ['gsap', 'lenis']
+	},
+	optimizeDeps: {
+		include: ['gsap', 'gsap/ScrollTrigger', 'lenis']
+	}
 });

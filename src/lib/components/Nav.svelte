@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { nav, site } from '$lib/data/content';
+	import { announcementOpen } from '$lib/stores/chrome';
 
 	let open = $state(false);
 	let scrolled = $state(false);
@@ -20,15 +21,15 @@
 	});
 </script>
 
-<header
-	class="fixed inset-x-0 z-50 transition-all duration-500 {scrolled
-		? 'top-0 bg-ink/90 backdrop-blur-md shadow-[0_1px_0_rgba(242,239,230,0.08)]'
-		: 'top-0 bg-transparent'}"
+<div
+	class="transition-colors duration-500 {scrolled || !$announcementOpen
+		? 'bg-ink/90 backdrop-blur-md shadow-[0_1px_0_rgba(242,239,230,0.08)]'
+		: 'bg-transparent'}"
 >
 	<div class="container-wide flex items-center justify-between gap-6 py-4">
 		<a href="/" class="relative z-10 flex items-center gap-3" aria-label="{site.name} home">
 			<img src="/logo.webp" alt={site.name} class="h-12 w-auto sm:h-14" />
-			<span class="hidden font-display text-lg leading-none tracking-tight text-paper md:block">
+			<span class="font-display hidden text-base leading-[1] tracking-[-0.01em] text-paper md:block">
 				Old Man<br />Winter Rally
 			</span>
 		</a>
@@ -66,10 +67,10 @@
 			<span class="font-mono text-xs tracking-widest">{open ? 'CLOSE' : 'MENU'}</span>
 		</button>
 	</div>
-</header>
+</div>
 
 {#if open}
-	<div class="fixed inset-0 z-40 bg-ink/95 px-6 pt-28 backdrop-blur-xl lg:hidden">
+	<div class="fixed inset-0 z-40 bg-ink/95 px-6 pt-36 backdrop-blur-xl lg:hidden">
 		<nav class="flex flex-col gap-5">
 			{#each nav as item}
 				<a

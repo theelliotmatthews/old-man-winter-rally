@@ -9,12 +9,12 @@
 	}: { eyebrow?: string; title: string; lead?: string; image?: string } = $props();
 </script>
 
-<section class="relative overflow-hidden pt-28">
+<section class="relative overflow-hidden pt-36 sm:pt-40">
 	<div class="absolute inset-0">
 		<img src={image} alt="" class="h-full w-full object-cover opacity-40" />
 		<div class="absolute inset-0 bg-gradient-to-b from-ink via-ink/80 to-ink"></div>
 	</div>
-	<div class="relative container-page section-pad !pb-14 !pt-16">
+	<div class="relative container-page section-pad !pb-14 !pt-10">
 		<div class="max-w-3xl" use:reveal>
 			{#if eyebrow}
 				<p class="eyebrow">{eyebrow}</p>

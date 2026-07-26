@@ -12,7 +12,7 @@
 	let { children } = $props();
 
 	onMount(() => {
-		initSmoothScroll();
+		void initSmoothScroll();
 		return () => destroySmoothScroll();
 	});
 </script>
@@ -32,8 +32,10 @@
 </svelte:head>
 
 <MetaPixel />
-<AnnouncementBar />
-<Nav />
+<div class="fixed inset-x-0 top-0 z-50">
+	<AnnouncementBar />
+	<Nav />
+</div>
 <main>
 	{@render children()}
 </main>

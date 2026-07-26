@@ -22,7 +22,7 @@ npm run dev
 ## Env
 
 ```
-PUBLIC_META_PIXEL_ID=1820792774830166
+PUBLIC_META_PIXEL_ID=1797235934583489
 PUBLIC_SITE_URL=https://old-man-winter-rally.vercel.app
 BREVO_API_KEY=xkeysib-...
 BREVO_VIP_LIST_ID=4

@@ -26,9 +26,9 @@ PUBLIC_META_PIXEL_ID=1820792774830166
 PUBLIC_SITE_URL=https://old-man-winter-rally.vercel.app
 BREVO_API_KEY=xkeysib-...
 BREVO_VIP_LIST_ID=4
-BREVO_SENDER_EMAIL=omwr@adventurefit.com
+BREVO_SENDER_EMAIL=josh@adventurefit.com
 BREVO_SENDER_NAME=Old Man Winter Rally
-BREVO_REPLY_TO=omwr@adventurefit.com
+BREVO_REPLY_TO=josh@adventurefit.com
 PUBLIC_MAPTILER_API_KEY=...
 ```
 

@@ -13,7 +13,7 @@
 		<p>
 			When you register on Events.com, your registration data is processed by Events.com under their
 			terms. When you submit the updates form on this website, we send your email and phone number to
-			Klaviyo so we can deliver the marketing messages you consented to.
+			Brevo so we can deliver the marketing messages you consented to.
 		</p>
 		<p>
 			We also use the Meta Pixel to understand marketing performance. You can control ad tracking through

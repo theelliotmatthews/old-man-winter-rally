@@ -1,5 +1,5 @@
 import { json } from '@sveltejs/kit';
-import { KLAVIYO_API_KEY, KLAVIYO_LIST_ID } from '$env/static/private';
+import { BREVO_API_KEY, BREVO_VIP_LIST_ID } from '$env/static/private';
 import type { RequestHandler } from './$types';
 
 export const prerender = false;
@@ -30,12 +30,12 @@ export const POST: RequestHandler = async ({ request }) => {
 			return json({ error: 'Marketing consent is required.' }, { status: 400 });
 		}
 
-		const apiKey = KLAVIYO_API_KEY;
-		const listId = KLAVIYO_LIST_ID;
+		const apiKey = BREVO_API_KEY;
+		const listId = Number(BREVO_VIP_LIST_ID);
 
-		if (!apiKey || apiKey.includes('your_private') || !listId || listId.includes('YourList')) {
+		if (!apiKey || apiKey.includes('your_') || !Number.isFinite(listId) || listId <= 0) {
 			// Placeholder mode for local/demo deploys before real credentials are set
-			console.info('[register] Placeholder Klaviyo credentials. Accepted lead:', {
+			console.info('[register] Placeholder Brevo credentials. Accepted lead:', {
 				email,
 				phone: cleanPhone(dialingCode, phone)
 			});
@@ -44,94 +44,30 @@ export const POST: RequestHandler = async ({ request }) => {
 
 		const phoneNumber = cleanPhone(dialingCode, phone);
 
-		const profileRes = await fetch('https://a.klaviyo.com/api/profile-import/', {
+		const contactRes = await fetch('https://api.brevo.com/v3/contacts', {
 			method: 'POST',
 			headers: {
-				Authorization: `Klaviyo-API-Key ${apiKey}`,
-				revision: '2024-10-15',
+				'api-key': apiKey,
 				'Content-Type': 'application/json',
 				Accept: 'application/json'
 			},
 			body: JSON.stringify({
-				data: {
-					type: 'profile',
-					attributes: {
-						email,
-						phone_number: phoneNumber,
-						properties: {
-							source: 'old-man-winter-rally-website',
-							marketing_consent: true
-						}
-					}
-				}
+				email,
+				attributes: {
+					SMS: phoneNumber
+				},
+				listIds: [listId],
+				updateEnabled: true,
+				emailBlacklisted: false,
+				smsBlacklisted: false
 			})
 		});
 
-		if (!profileRes.ok) {
-			const errText = await profileRes.text();
-			console.error('Klaviyo profile error', profileRes.status, errText);
+		// 201 = created, 204 = updated existing
+		if (!contactRes.ok && contactRes.status !== 204) {
+			const errText = await contactRes.text();
+			console.error('Brevo contact error', contactRes.status, errText);
 			return json({ error: 'Could not save your details. Try again.' }, { status: 502 });
-		}
-
-		const profileJson = await profileRes.json();
-		const profileId = profileJson?.data?.id;
-
-		const subscribeRes = await fetch(
-			'https://a.klaviyo.com/api/profile-subscription-bulk-create-jobs/',
-			{
-				method: 'POST',
-				headers: {
-					Authorization: `Klaviyo-API-Key ${apiKey}`,
-					revision: '2024-10-15',
-					'Content-Type': 'application/json',
-					Accept: 'application/json'
-				},
-				body: JSON.stringify({
-					data: {
-						type: 'profile-subscription-bulk-create-job',
-						attributes: {
-							profiles: {
-								data: [
-									{
-										type: 'profile',
-										id: profileId,
-										attributes: {
-											email,
-											phone_number: phoneNumber,
-											subscriptions: {
-												email: {
-													marketing: {
-														consent: 'SUBSCRIBED'
-													}
-												},
-												sms: {
-													marketing: {
-														consent: 'SUBSCRIBED'
-													}
-												}
-											}
-										}
-									}
-								]
-							}
-						},
-						relationships: {
-							list: {
-								data: {
-									type: 'list',
-									id: listId
-								}
-							}
-						}
-					}
-				})
-			}
-		);
-
-		if (!subscribeRes.ok && subscribeRes.status !== 202) {
-			const errText = await subscribeRes.text();
-			console.error('Klaviyo subscribe error', subscribeRes.status, errText);
-			// Profile was created; still treat as soft success for UX
 		}
 
 		return json({ ok: true });

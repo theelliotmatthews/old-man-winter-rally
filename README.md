@@ -8,7 +8,7 @@ High-converting rebuild of [oldmanwinterrally.com](https://www.oldmanwinterrally
 - Tailwind CSS v4
 - `@sveltejs/adapter-vercel`
 - Meta Pixel (`PUBLIC_META_PIXEL_ID`)
-- Klaviyo lead capture via `/api/register`
+- Brevo lead capture via `/api/register`
 
 ## Local
 
@@ -23,8 +23,11 @@ npm run dev
 
 ```
 PUBLIC_META_PIXEL_ID=1820792774830166
-KLAVIYO_API_KEY=pk_...
-KLAVIYO_LIST_ID=...
+BREVO_API_KEY=xkeysib-...
+BREVO_VIP_LIST_ID=4
+BREVO_SENDER_EMAIL=omwr@adventurefit.com
+BREVO_SENDER_NAME=Old Man Winter Rally
+BREVO_REPLY_TO=omwr@adventurefit.com
 PUBLIC_MAPTILER_API_KEY=...
 ```
 

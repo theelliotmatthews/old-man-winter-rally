@@ -5,8 +5,29 @@
 
 	const pixelId = PUBLIC_META_PIXEL_ID || '1820792774830166';
 
+	let optedOut = $state(false);
+
+	function checkOptOut(): boolean {
+		if (!browser) return false;
+		
+		const gpc = (navigator as Navigator & { globalPrivacyControl?: boolean }).globalPrivacyControl;
+		if (gpc === true) return true;
+		
+		try {
+			return localStorage.getItem('omw_tracking_opt_out') === 'true';
+		} catch {
+			return false;
+		}
+	}
+
 	$effect(() => {
-		if (!browser || !pixelId) return;
+		if (browser) {
+			optedOut = checkOptOut();
+		}
+	});
+
+	$effect(() => {
+		if (!browser || !pixelId || optedOut) return;
 
 		if (!window.fbq) {
 			const n = (function (f: Window, b: Document, e: string, v: string) {
@@ -44,12 +65,14 @@
 	});
 </script>
 
-<noscript>
-	<img
-		height="1"
-		width="1"
-		style="display:none"
-		src="https://www.facebook.com/tr?id={pixelId}&ev=PageView&noscript=1"
-		alt=""
-	/>
-</noscript>
+{#if !optedOut}
+	<noscript>
+		<img
+			height="1"
+			width="1"
+			style="display:none"
+			src="https://www.facebook.com/tr?id={pixelId}&ev=PageView&noscript=1"
+			alt=""
+		/>
+	</noscript>
+{/if}

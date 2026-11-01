@@ -1,5 +1,22 @@
 <script lang="ts">
 	import { footerExplore, site } from '$lib/data/content';
+	import { browser } from '$app/environment';
+
+	let showOptOutConfirmation = $state(false);
+
+	function handleOptOut() {
+		if (browser) {
+			try {
+				localStorage.setItem('omw_tracking_opt_out', 'true');
+				showOptOutConfirmation = true;
+				setTimeout(() => {
+					showOptOutConfirmation = false;
+				}, 5000);
+			} catch (e) {
+				console.error('Failed to set opt-out preference:', e);
+			}
+		}
+	}
 </script>
 
 <footer class="border-t border-paper/10 bg-ink">
@@ -44,8 +61,24 @@
 		<div
 			class="mt-16 flex flex-col gap-3 border-t border-paper/10 pt-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between"
 		>
-			<p>© {site.year} Adventure Fit · {site.name}</p>
+			<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
+				<p>© {site.year} Adventure Fit · {site.name}</p>
+				<button
+					type="button"
+					onclick={handleOptOut}
+					class="text-left underline transition hover:text-ice"
+				>
+					Do Not Sell or Share My Personal Information
+				</button>
+			</div>
 			<p class="font-mono tracking-[0.12em] uppercase">Rain. Snow. Shine.</p>
 		</div>
+
+		{#if showOptOutConfirmation}
+			<div class="mt-4 rounded-md border border-ice/20 bg-ice/5 px-4 py-3 text-sm text-ice">
+				Your choice has been saved. Tracking and data sharing have been disabled. This preference
+				will persist on this device.
+			</div>
+		{/if}
 	</div>
 </footer>
